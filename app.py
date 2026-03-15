@@ -3,8 +3,8 @@ import socket
 
 app = Flask(__name__)
 
-@app.rte("/")
-df home():
+@app.route("/")
+def home():
     return f"Hello all DevOps friends! Hostname: {socket.gethostname()}"
 
 @app.route("/health")
