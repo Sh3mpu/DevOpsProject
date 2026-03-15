@@ -3,3 +3,9 @@
 __pycache__
 *.pyc
 .env
+terraform/
+.terraform/
+*.tfstate
+*.tfstate.*
+*.pem
+*.hcl

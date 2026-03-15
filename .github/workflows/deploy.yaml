@@ -1,0 +1,22 @@
+name: Deploy to EC2
+
+on:
+  workflow_run:
+    workflows: ["Build and push docker image"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/devops-project:latest
+            docker rm -f devops-demoproject || true
+            docker run -d -p 80:5000 --name devops-demoproject ${{ secrets.DOCKER_USERNAME }}/devops-project:latest
